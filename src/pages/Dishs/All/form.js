@@ -98,6 +98,7 @@ const AddVictualTitle = styled.div`
   font-size: 15px;
   font-weight: 700;
   text-indent: 10px;
+  color: #333;
 `
 
 const Select = styled.select`
@@ -299,8 +300,10 @@ export function AddForm (props) {
           />
         </Infos>
         <Vicutals>
-          <AddVictualTitle>
-          Add vicutals
+          <AddVictualTitle
+            color={props.backgroundColor}
+          >
+            Add vicutals
           </AddVictualTitle>
 
           <VictualsSelector

@@ -49,31 +49,29 @@ export default function Dishs () {
     <PageContainer>
       <Container>
         {
-          dishs && (
-            <Module>
-              <Value color={routes.dishs.color}>
-                <CountUp
-                  start={0}
-                  end={dishs.length}
-                  duration={1}
-                />
-              </Value>
-              Dishs
-            </Module>
-          )
-        }
-        {
-          victuals && (
-            <Module>
-              <Value color={routes.victuals.color}>
-                <CountUp
-                  start={0}
-                  end={victuals.length}
-                  duration={1}
-                />
-              </Value>
+          dishs && victuals && (
+            <>
+              <Module>
+                <Value color={routes.dishs.color}>
+                  <CountUp
+                    start={0}
+                    end={dishs.length}
+                    duration={1}
+                  />
+                </Value>
+                Dishs
+              </Module>
+              <Module>
+                <Value color={routes.victuals.color}>
+                  <CountUp
+                    start={0}
+                    end={victuals.length}
+                    duration={1}
+                  />
+                </Value>
               Victuals
-            </Module>
+              </Module>
+            </>
           )
         }
       </Container>
