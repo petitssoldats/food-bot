@@ -19,6 +19,7 @@ const Container = styled.form`
   display: flex;
   align-items: center;
   flex-direction: column;
+  color: #333;
 `
 
 const Title = styled.h3`
