@@ -2,7 +2,12 @@ import React, { useCallback } from 'react'
 import styled from '@emotion/styled'
 
 import { useAddDish } from 'flow/dishs'
-import { Label as LabelForTitle, Description as DescriptionInput, VictualsSelector } from 'pages/Dishs/All/form'
+import {
+  Label as LabelForTitle,
+  Description as DescriptionInput,
+  VictualsSelector,
+  PersonneContainer, Personne as PersonneInput
+} from 'pages/Dishs/All/form'
 
 const Container = styled.div`
   max-width: 800px;
@@ -27,11 +32,16 @@ const RightPart = styled.div`
 const Label = styled(LabelForTitle)`
   margin: 0px;
   height: auto;
-  margin-bottom: 10px;
 `
 const Description = styled(DescriptionInput)`
   width: 100%;
   height: calc(100% - 50px);
+`
+
+const Personne = styled(PersonneInput)`
+  margin-bottom: 0px;
+  margin-top: 0px;
+  margin-left: 10px;
 `
 
 const Img = styled.div`
@@ -51,6 +61,11 @@ const VictualsSelectorContainer = styled.div`
   padding: 10px;
   border: 5px;
   flex: 1;
+`
+const TopPart = styled.div`
+  display: flex;
+  width: 100%;
+  margin-bottom: 10px;
 `
 
 export default function (props) {
@@ -82,6 +97,15 @@ export default function (props) {
     })
   }, [addDish, currentDish])
 
+  const onUpdatePpl = useCallback((e) => {
+    if (e.target.value) {
+      addDish({
+        ...currentDish,
+        ppl: e.target.value
+      })
+    }
+  }, [addDish, currentDish])
+
   return (
     <Container>
       <LeftPart>
@@ -97,10 +121,19 @@ export default function (props) {
         </VictualsSelectorContainer>
       </LeftPart>
       <RightPart>
-        <Label
-          value={currentDish.label}
-          onChange={onUpdateLabel}
-        />
+        <TopPart>
+          <Label
+            value={currentDish.label}
+            onChange={onUpdateLabel}
+          />
+          <PersonneContainer>
+            <Personne
+              type='number'
+              value={currentDish.ppl}
+              onChange={onUpdatePpl}
+            />
+          </PersonneContainer>
+        </TopPart>
         <Description
           type='aera'
           placeholder='Dish description'

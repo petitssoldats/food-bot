@@ -8,6 +8,7 @@ import Menu from 'common/Menu'
 import Home from 'pages/Home'
 import Dishs from 'pages/Dishs'
 import Victuals from 'pages/Victuals'
+import Schedules from 'pages/Schedules'
 
 import useSocket from 'flow/socket'
 
@@ -43,6 +44,9 @@ function App () {
                     </Route>
                     <Route path={routes.victuals.slug}>
                       <Victuals />
+                    </Route>
+                    <Route path={routes.schedules.slug}>
+                      <Schedules />
                     </Route>
                   </Switch>
                 </AnimatePresence>

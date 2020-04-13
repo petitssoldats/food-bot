@@ -41,25 +41,60 @@ export const Description = styled.textarea`
   min-height: 180px;
   width: 300px;
   background: white;
-  border: none;
+  border: none; 
   padding: 10px;
   outline: none;
   font-size: 12px;
   font-weight: 500;
 `
 
+export const TopPart = styled.div`
+  display: flex;
+  width: 100%;
+`
+
 export const Label = styled.input`
   border-radius: 5px;
-  min-width: 80px;
-  width: 100%;
   flex: 1;
   background: white;
   border: none;
   padding: 10px;
   outline: none;
-  margin: 10px;
+  margin: 10px 5px 10px 0px;
   font-size: 15px;
   font-weight: 600;
+`
+
+export const PersonneContainer = styled.div`
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  &:after {
+    left: 15px;
+    content: 'p.';
+    position: absolute;
+  }
+`
+
+export const Personne = styled.input`
+  width: 80px;
+  height: calc(100% - 20px);
+  border-radius: 5px;
+  background: white;
+  border: none;
+  padding: 10px;
+  outline: none;
+  margin: 10px 0px 10px 5px;
+  font-size: 15px;
+  font-weight: 600; 
+  text-align: right;
+
+  &:-webkit-outer-spin-button, 
+  &:-webkit-inner-spin-button {
+    margin-left: 20px;
+  } 
 `
 
 const Content = styled.div`
@@ -260,6 +295,7 @@ export function AddForm (props) {
   const addDish = useAddDish(closeModal)
   const label = useRef()
   const img = useRef()
+  const ppl = useRef(1)
   const description = useRef()
   const [selectedVictuals, setSelectedVictuals] = useState([])
 
@@ -271,6 +307,7 @@ export function AddForm (props) {
           label: label.current,
           description: description.current,
           img: img.current,
+          ppl: ppl.current,
           victuals: selectedVictuals
         })
       }}
@@ -278,13 +315,24 @@ export function AddForm (props) {
       <Title>
     Add a dish
       </Title>
-      <Label
-        required
-        placeholder='Dish title'
-        onChange={(e) => {
-          label.current = e.target.value
-        }}
-      />
+      <TopPart>
+        <Label
+          required
+          placeholder='Dish title'
+          onChange={(e) => {
+            label.current = e.target.value
+          }}
+        />
+        <PersonneContainer>
+          <Personne
+            type='number'
+            defaultValue={ppl.current}
+            onChange={(e) => {
+              ppl.current = e.target.value
+            }}
+          />
+        </PersonneContainer>
+      </TopPart>
       <Content>
         <Infos>
           <ImgUploader

@@ -17,9 +17,9 @@ export default {
     title: 'Victuals',
     color: '#22cc88'
   },
-  schedule: {
-    slug: '/schedule',
-    title: 'Schedule',
+  schedules: {
+    slug: '/schedules/:id?',
+    title: 'schedules',
     color: '#ffaa00'
   },
   'shopping-list': {
