@@ -18,7 +18,7 @@ export default {
     color: '#22cc88'
   },
   schedules: {
-    slug: '/schedules/:id?',
+    slug: '/schedules',
     title: 'schedules',
     color: '#ffaa00'
   },

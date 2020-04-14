@@ -1,10 +1,8 @@
-import React, { useRef, useCallback, useState } from 'react'
-import { motion } from 'framer-motion'
 import styled from '@emotion/styled'
-
-import Modal from 'pages/components/Modal'
-
 import { useAddSchedule } from 'flow/schedules'
+import { motion } from 'framer-motion'
+import Modal from 'pages/components/Modal'
+import React, { useCallback, useRef } from 'react'
 
 const Container = styled.form`
   color: white;
@@ -38,20 +36,6 @@ const Label = styled.input`
   margin: 10px;
   font-size: 15px;
   font-weight: 600;
-`
-
-const Select = styled.select`
-  border-radius: 5px;
-  min-width: 80px;
-  width: 400px;
-  background: white;
-  border: none;
-  outline: none;
-  margin: 10px;
-  font-size: 15px;
-  font-weight: 600;
-  height: 39px;
-  text-indent: 5px;
 `
 
 const Button = styled(motion.button)`

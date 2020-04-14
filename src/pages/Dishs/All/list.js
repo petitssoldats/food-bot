@@ -1,10 +1,8 @@
 import React, { useState, useCallback } from 'react'
-import { useHistory } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import styled from '@emotion/styled'
 
 import { useDeleteDish } from 'flow/dishs'
-import { useActiveRoute } from 'flow/pages'
 
 const Container = styled.div`
   max-width: 100%;
@@ -99,9 +97,7 @@ const Card = (props) => {
       onMouseLeave={onLeave}
       onClick={(e) => {
         e.stopPropagation()
-        props.history.push(
-          props.activeRoute.pattern.stringify({ id: props.id })
-        )
+        props.onClick()
       }}
     >
       {
@@ -118,8 +114,6 @@ const Card = (props) => {
 }
 
 export default function DishsList (props) {
-  const history = useHistory()
-  const activeRoute = useActiveRoute()
   const deleteDish = useDeleteDish()
 
   return (
@@ -128,11 +122,12 @@ export default function DishsList (props) {
         props.items.map((d) => {
           return (
             <Card
-              history={history}
-              activeRoute={activeRoute}
               backgroundColor={props.backgroundColor}
               key={d.id}
               id={d.id}
+              onClick={(e) => {
+                props.onClick(d.id)
+              }}
               onDelete={(e) => {
                 e.stopPropagation()
                 deleteDish(d)

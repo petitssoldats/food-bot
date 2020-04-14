@@ -1,11 +1,13 @@
-import { useCallback, useState, useEffect, useMemo } from 'react'
-import { useParams, useHistory } from 'react-router-dom'
-import slug from 'slug'
 import { omit } from 'lodash'
-
-import routes from 'common/routes'
-
+import { useCallback, useEffect, useState } from 'react'
+import slug from 'slug'
 import useSocket from './socket'
+
+const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+export const defaultDays = Array(7).fill().reduce((p, c, i) => {
+  p[days[i]] = [null, null]
+  return p
+}, {})
 
 export function useAddSchedule (callback) {
   const socket = useSocket()
@@ -15,7 +17,8 @@ export function useAddSchedule (callback) {
       const datumWithIdAndTime = {
         ...datum,
         id: datum.id || slug(datum.label.toLowerCase()),
-        ts: Math.round(Date.now() / 1000)
+        ts: Math.round(Date.now() / 1000),
+        days: datum.days || defaultDays
       }
       socket.emit('add-schedule', datumWithIdAndTime, (err, res) => {
         if (err) console.log(err)
@@ -27,7 +30,7 @@ export function useAddSchedule (callback) {
   return addFn
 }
 
-export function useDeleteDish (callback) {
+export function useDeleteSchedule (callback) {
   const socket = useSocket()
 
   const deleteFn = useCallback((datum) => {
