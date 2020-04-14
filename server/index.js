@@ -4,6 +4,13 @@ const io = require('socket.io')(3001)
 const url = 'mongodb://localhost:27017'
 const dbName = 'food-bot'
 
+function createCollection (db, label) {
+  db.createCollection(label, function (err, result) {
+    if (err) throw err
+    console.log(`💾 ${label} collection is created`)
+  })
+}
+
 MongoClient.connect(url, function (err, client) {
   console.log('\n')
 
@@ -14,18 +21,12 @@ MongoClient.connect(url, function (err, client) {
 
   const db = client.db(dbName)
 
-  db.createCollection('victuals', function (err, result) {
-    if (err) throw err
-    console.log('✦ Victuals collection is created')
-  })
-
-  db.createCollection('dishs', function (err, result) {
-    if (err) throw err
-    console.log('✦ Dishs collection is created')
-  })
+  createCollection(db, 'victuals')
+  createCollection(db, 'dishs')
+  createCollection(db, 'schedules')
 
   io.on('connection', function (socket) {
-    console.log('✦ client connected')
+    console.log('🛀 client connected')
 
     // VICTUALS
     function pushVictuals () {
@@ -111,6 +112,47 @@ MongoClient.connect(url, function (err, client) {
 
     socket.on('get-dishs', (cb) => {
       db.collection('dishs')
+        .find({}).toArray((err, docs) => {
+          cb(err, docs)
+        })
+    })
+
+    // SCHEDULES
+    function pushSchedules () {
+      db.collection('schedules')
+        .find({}).toArray((err, docs) => {
+          if (err) {
+            console.log(err)
+          } else {
+            io.emit('push-schedules', docs)
+          }
+        })
+    }
+
+    socket.on('add-schedule', (datum, cb) => {
+      db.collection('schedules')
+        .updateOne(
+          { id: datum.id },
+          { $set: datum },
+          { upsert: true },
+          (err, res) => {
+            cb(err, res)
+            pushSchedules()
+          })
+    })
+
+    socket.on('delete-schedule', (datum, cb) => {
+      db.collection('schedules')
+        .deleteOne({ id: datum.id },
+          (err, res) => {
+            console.log(err, res)
+            cb(err, res)
+            pushSchedules()
+          })
+    })
+
+    socket.on('get-schedules', (cb) => {
+      db.collection('schedules')
         .find({}).toArray((err, docs) => {
           cb(err, docs)
         })
